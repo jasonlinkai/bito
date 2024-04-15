@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/organisms/Nav";
 import Footer from "@/components/organisms/Footer";
-import RateConversionModal from "@/components/organisms/RateConversionModal";
-import SelectionModal from "@/components/organisms/SelectionModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +25,6 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
-          <RateConversionModal />
-          <SelectionModal />
         </main>
       </body>
     </html>

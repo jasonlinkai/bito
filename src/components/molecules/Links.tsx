@@ -2,23 +2,12 @@
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import type { Route } from "@/interfaces";
 
-const routes = [
+const routes: Route[] = [
   {
     title: "Home",
     pathname: "/",
-  },
-  {
-    title: "Conversion",
-    pathname: "/conversion",
-  },
-  {
-    title: "Exchange",
-    pathname: "/exchange",
-  },
-  {
-    title: "Selection",
-    pathname: "/selection",
   },
 ];
 
@@ -34,7 +23,8 @@ export default function Links() {
               className={clsx([
                 {
                   "text-blue-500": pathname === path,
-                  "text-white hover:text-blue-500 transition-colors duration-300": pathname !== path,
+                  "text-white hover:text-blue-500 transition-colors duration-300":
+                    pathname !== path,
                 },
               ])}
               href={path}

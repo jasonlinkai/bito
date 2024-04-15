@@ -1,0 +1,60 @@
+"use client";
+import Image from "next/image";
+import clsx from "clsx";
+import type { Pair } from "@/interfaces";
+import Modal from "@/components/molecules/Modal";
+import Col from "@/components/atoms/Col";
+
+interface CurrencySelectModalProps {
+  visible?: boolean;
+  setVisible?: (visible: boolean) => void,
+  valuePair?: Pair;
+  pairs?: Pair[];
+  onSelected?: (pair: Pair) => void;
+}
+
+const CurrencySelectModal: React.FC<CurrencySelectModalProps> = ({
+  visible = false,
+  setVisible = (v) => console.log(v),
+  valuePair,
+  pairs = [],
+  onSelected = (v) => console.log(v), 
+}) => {
+  return (
+    <Modal title="Currency Select" visible={visible} setVisible={setVisible}>
+      <div className="relative w-[300px] min-w-[300px] max-h-full overflow-hidden">
+        <Col className={`h-full overflow-scroll pt-4`}>
+          {pairs.map((pair) => {
+            const { id, currency, currency_icon } = pair;
+            return (
+              <div
+                key={`${id}-${currency}`}
+                className={clsx([
+                  "flex flex-row flex-1 justify-center items-center py-2 mb-4 cursor-pointer",
+                  {
+                    "bg-blue-500": valuePair?.id === id,
+                  },
+                ])}
+                onClick={() => {
+                  onSelected(pair)
+                  setVisible(false)
+                }}
+              >
+                <Image
+                  className="rounded-full mr-4"
+                  src={currency_icon}
+                  alt={`icon-${id}-${currency}`}
+                  width={16}
+                  height={16}
+                />
+                <span>{currency} / TWD</span>
+              </div>
+            );
+          })}
+        </Col>
+      </div>
+    </Modal>
+  );
+};
+
+export default CurrencySelectModal;

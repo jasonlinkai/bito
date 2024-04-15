@@ -1,6 +1,6 @@
-import { Pairs } from "@/interfaces";
+import { Pair } from "@/interfaces";
 
-export async function httpGetPairs(): Promise<Pairs[]> {
+export async function httpGetPairs(): Promise<Pair[]> {
   const res = await fetch(
     "https://65efcc68ead08fa78a50f929.mockapi.io/api/v1/pairs"
   );
