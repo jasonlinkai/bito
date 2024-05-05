@@ -1,21 +1,17 @@
 import Image from "next/image";
 import Row from "@/components/atoms/Row";
 import Col from "@/components/atoms/Col";
-import { Pair } from "@/interfaces";
+import Button from "../atoms/Button";
+import { httpGetPairs } from "@/utils/http";
 
 const HEADER_HEIGHT = 57;
 const TABLE_HEADER_HEIGHT = 44;
 const FOOTER_HEIGHT = 57;
 
-interface RateTableProps {
-  pairs?: Pair[]
-  children?: React.ReactNode
-}
+interface RateTableProps {}
 
-const RateTable: React.FC<RateTableProps> = ({
-  pairs = [],
-  children,
-}) => {
+const RateTable: React.FC<RateTableProps> = async () => {
+  const pairs = await httpGetPairs();
   return (
     <div className="relative w-[600px] min-w-[320px] max-h-full overflow-hidden border border-solid border-while rounded-xl">
       <Row
@@ -36,38 +32,36 @@ const RateTable: React.FC<RateTableProps> = ({
         </Row>
       </Row>
       <Col className={`h-[calc(100%-158px)] overflow-scroll pt-4`}>
-        {pairs.map(
-          ({ id, currency, currency_icon, twd_price }) => {
-            return (
-              <Row
-                key={`${id}-${currency}`}
-                className="w-full justify-between pb-4"
-              >
-                <Row className="flex-1 justify-center items-center">
-                  <Image
-                    className="rounded-full mr-4"
-                    src={currency_icon}
-                    alt={`icon-${id}-${currency}`}
-                    width={16}
-                    height={16}
-                  />
-                  <span>{currency} / TWD</span>
-                </Row>
-                <Row className="flex-1 justify-center items-center">
-                  <span>{twd_price}</span>
-                </Row>
+        {pairs.map(({ id, currency, currency_icon, twd_price }) => {
+          return (
+            <Row
+              key={`${id}-${currency}`}
+              className="w-full justify-between pb-4"
+            >
+              <Row className="flex-1 justify-center items-center">
+                <Image
+                  className="rounded-full mr-4"
+                  src={currency_icon}
+                  alt={`icon-${id}-${currency}`}
+                  width={16}
+                  height={16}
+                />
+                <span>{currency} / TWD</span>
               </Row>
-            );
-          }
-        )}
+              <Row className="flex-1 justify-center items-center">
+                <span>{twd_price}</span>
+              </Row>
+            </Row>
+          );
+        })}
       </Col>
       <Row
         className={`w-full h-[${FOOTER_HEIGHT}px] justify-center items-center border-t border-solid border-while`}
       >
-        {children}
+        <Button>Rate Conversion</Button>
       </Row>
     </div>
   );
-}
+};
 
 export default RateTable;
