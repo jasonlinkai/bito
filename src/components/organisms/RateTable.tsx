@@ -15,7 +15,7 @@ const FOOTER_HEIGHT = 57;
 interface RateTableProps {}
 
 const RateTable: React.FC<RateTableProps> = () => {
-  const { pairs, loading } = usePairs();
+  const { data: pairs, isLoading } = usePairs();
   const [isRateConversionModalVisible, setIsRateConversionModalVisible] =
     useState(false);
 
@@ -39,7 +39,7 @@ const RateTable: React.FC<RateTableProps> = () => {
             <span>Price</span>
           </Row>
         </Row>
-        {loading ? (
+        {isLoading ? (
           <LoadingArea></LoadingArea>
         ) : (
           <Fragment>
@@ -81,7 +81,6 @@ const RateTable: React.FC<RateTableProps> = () => {
             <RateConversionModal
               visible={isRateConversionModalVisible}
               setVisible={setIsRateConversionModalVisible}
-              pairs={pairs}
             />
           </Fragment>
         )}

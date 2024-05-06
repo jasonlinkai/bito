@@ -10,3 +10,8 @@ export interface Pair {
   amount_decimal: string;
   id: string;
 }
+
+export interface Auth {
+  username: string;
+  user_id: string;
+}

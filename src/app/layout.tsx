@@ -4,8 +4,7 @@ import "./globals.css";
 import clsx from "clsx";
 import Nav from "@/components/organisms/Nav";
 import Footer from "@/components/organisms/Footer";
-import RateConversionModal from "@/components/organisms/RateConversionModal";
-import CurrencySelectModal from "@/components/organisms/CurrencySelectModal";
+import StoreProvider from "@/providers/StoreProviders";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +23,11 @@ export default function RootLayout({
       <body
         className={clsx([inter.className, "w-full h-full overflow-hidden"])}
       >
-        <Nav />
-        <main className="w-full h-[calc(100%-205px)]">
-          {children}
-        </main>
-        <Footer />
+        <StoreProvider>
+          <Nav />
+          <main className="w-full h-[calc(100%-205px)]">{children}</main>
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );
