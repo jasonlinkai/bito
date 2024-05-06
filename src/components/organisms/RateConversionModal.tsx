@@ -3,15 +3,15 @@ import Image from "next/image";
 import type { Pair } from "@/interfaces";
 import Modal from "@/components/molecules/Modal";
 import { useCallback, useEffect, useState } from "react";
-import Row from "../atoms/Row";
-import Col from "../atoms/Col";
-import Button from "../atoms/Button";
+import Row from "@/components/atoms/Row";
+import Col from "@/components/atoms/Col";
+import Button from "@/components/atoms/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleDoubleDown,
 } from "@fortawesome/free-solid-svg-icons";
-import CurrencySelectModal from "./CurrencySelectModal";
+import CurrencySelectModal from "@/components/organisms/CurrencySelectModal";
 
 interface RateConversionModalProps {
   visible?: boolean;
@@ -24,6 +24,10 @@ const RateConversionModal: React.FC<RateConversionModalProps> = ({
   setVisible = (v) => console.log(v),
   pairs = [],
 }) => {
+  const [prevPair, setPrevPair] = useState<Pair>(pairs[0]);
+  const [nextPair, setNextPair] = useState<Pair>(pairs[1]);
+  const [prevAmount, setPrevAmount] = useState(0);
+  const [nextAmount, setNextAmount] = useState(0);
   const [
     isPrevCurrencySelectModalVisible,
     setIsPrevCurrencySelectedModalVisible,
@@ -32,20 +36,20 @@ const RateConversionModal: React.FC<RateConversionModalProps> = ({
     isNextCurrencySelectModalVisible,
     setIsNextCurrencySelectedModalVisible,
   ] = useState(false);
-  const [prevPair, setPrevPair] = useState<Pair>(pairs[0]);
-  const [nextPair, setNextPair] = useState<Pair>(pairs[1]);
-  const [prevAmount, setPrevAmount] = useState(0);
-  const [nextAmount, setNextAmount] = useState(0);
 
   const onPrevAmountChange = useCallback(
     (v: string) => {
-      const n = Number(v);
-      if (!Number.isNaN(Number(n))) {
-        setPrevAmount(n);
-        const ratio =
-          (((nextPair.twd_price * 100) / prevPair.twd_price) * 100) / 100 / 100;
-        const amount_decimal = Number(nextPair.amount_decimal);
-        setNextAmount(Number((ratio * n).toFixed(amount_decimal)));
+      if (prevPair !== null && nextPair !== null) {
+        const n = Number(v);
+        if (!Number.isNaN(Number(n))) {
+          setPrevAmount(n);
+          const ratio =
+            (((nextPair.twd_price * 100) / prevPair.twd_price) * 100) /
+            100 /
+            100;
+          const amount_decimal = Number(nextPair.amount_decimal);
+          setNextAmount(Number((ratio * n).toFixed(amount_decimal)));
+        }
       }
     },
     [nextPair, prevPair]
@@ -57,7 +61,7 @@ const RateConversionModal: React.FC<RateConversionModalProps> = ({
 
   return (
     <>
-      <Modal visible={visible} setVisible={setVisible} title="Rate Conversion">
+      <Modal title="Rate Conversion" visible={visible} setVisible={setVisible}>
         <Col className="w-full h-full justify-between p-6">
           <Row className="justify-between items-center">
             <Button onClick={() => setIsPrevCurrencySelectedModalVisible(true)}>

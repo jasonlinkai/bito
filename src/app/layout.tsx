@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import clsx from "clsx";
 import Nav from "@/components/organisms/Nav";
 import Footer from "@/components/organisms/Footer";
+import RateConversionModal from "@/components/organisms/RateConversionModal";
+import CurrencySelectModal from "@/components/organisms/CurrencySelectModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,14 +21,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="w-full h-full overflow-hidden">
-          <Nav />
-          <div className="w-full h-[calc(100%-205px)]">
-            {children}
-          </div>
-          <Footer />
+      <body
+        className={clsx([inter.className, "w-full h-full overflow-hidden"])}
+      >
+        <Nav />
+        <main className="w-full h-[calc(100%-205px)]">
+          {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
